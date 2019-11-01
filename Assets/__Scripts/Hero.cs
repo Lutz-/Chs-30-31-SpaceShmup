@@ -23,7 +23,8 @@ public class Hero : MonoBehaviour {
     private GameObject lastTriggerGo = null;
 
 
-    //TODO: Add function delegate declaration
+    public delegate void WeaponFireDelegate();
+    public WeaponFireDelegate fireDelegate;
 
 
 
@@ -60,17 +61,11 @@ public class Hero : MonoBehaviour {
         // Rotate the ship to make it feel more dynamic
         transform.rotation = Quaternion.Euler(yAxis * pitchMult, xAxis * rollMult, 0);
 
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {                          
-            TempFire();                                                   
+        
+        if(Input.GetAxis("Jump")==1 && fireDelegate != null)
+        {
+            fireDelegate();
         }
-
-        //TODO: Replace the TempFire call with the weapon delgate call
-        // Use the fireDelegate to fire Weapons
-        // First, make sure the button is pressed: Axis("Jump")
-        // Then ensure that fireDelegate isn't null to avoid an error
-
 
 
     }
@@ -79,21 +74,7 @@ public class Hero : MonoBehaviour {
 
 
     //TODO: replace or comment out later
-    void TempFire()
-    {                                                      
-        GameObject projGO = Instantiate<GameObject>(projectilePrefab);
-
-        projGO.transform.position = transform.position;
-        Rigidbody rigidB = projGO.GetComponent<Rigidbody>();
-
-        //        rigidB.velocity = Vector3.up * projectileSpeed;        
-
-        Projectile proj = projGO.GetComponent<Projectile>();  
-
-        proj.type = WeaponType.blaster;
-        float tSpeed = Main.GetWeaponDefinition(proj.type).velocity;
-        rigidB.velocity = Vector3.up * tSpeed;
-    }
+   
 
 
     private void OnTriggerEnter(Collider other)
