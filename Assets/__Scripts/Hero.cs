@@ -71,12 +71,6 @@ public class Hero : MonoBehaviour {
     }
 
 
-
-
-    //TODO: replace or comment out later
-   
-
-
     private void OnTriggerEnter(Collider other)
     {
         Transform rootT = other.gameObject.transform.root;
